@@ -14,12 +14,14 @@
 #include <webots/robot.h>
 #include <webots/motor.h>
 #include <webots/distance_sensor.h>
+#include <webots/led.h>
 
 /*
  * You may want to add macros here.
  */
 #define TIME_STEP 256
 #define QtddSensoresProx 8
+#define QtddLeds 10
 
 /*
  * This is the main program.
@@ -72,6 +74,12 @@ int main(int argc, char **argv) {
    wb_distance_sensor_enable(SensorProx[6],TIME_STEP);
    wb_distance_sensor_enable(SensorProx[7],TIME_STEP);
 
+    //config leds
+    WbDeviceTag Leds[QtddLeds];
+    Leds[0] = wb_robot_get_device("led0");
+    wb_led_set(Leds[0],-1);
+  
+  
   /*
    * You should declare here WbDeviceTag variables for storing
    * robot devices like this:
@@ -98,6 +106,7 @@ int main(int argc, char **argv) {
        sprintf(texto,"%s|%d: %5.2f  ",texto,i,LeituraSensorProx[i]);
     }
     printf("%s\n",texto);
+    wb_led_set(Leds[0], wb_led_get(Leds[0])*-1);
     /*
      * Enter here functions to send actuator commands, like:
      * wb_motor_set_position(my_actuator, 10.0);
